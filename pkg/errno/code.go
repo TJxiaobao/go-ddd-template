@@ -29,3 +29,10 @@ var (
 	ErrDatabase            = &Errno{Code: 500, Message: "Database error"}
 	ErrUnknown             = &Errno{Code: 510, Message: "Unknown error"}
 )
+
+// 业务状态码 11xxxx
+var (
+	ErrInvalidEmailFormat    = &Errno{Code: 1101001, Message: "Parameter email is invalid"}
+	ErrUsernameEmpty         = &Errno{Code: 1101002, Message: "Parameter username cannot be empty"}
+	ErrInvalidUsernameFormat = &Errno{Code: 1101003, Message: "Parameter username is invalid"}
+)
