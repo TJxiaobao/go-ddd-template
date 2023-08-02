@@ -1,0 +1,45 @@
+{
+  "listen_port": 8081,
+  "mysql": {
+    "address": "11.111.1.11",
+    "port": 3306,
+    "user": "test",
+    "password": "12345",
+    "db": "test",
+    "max_open_conns": 10,
+    "max_idle_conns": 10,
+    "log": {
+      "log_file": "/mysql.log",
+      "max_backups": 2,
+      "rotate_time_hour": 12
+    }
+  },
+  "mysql_sdp": {
+    "address": "localhost",
+    "port": 3306,
+    "user": "root",
+    "password": "root",
+    "db": "test",
+    "max_open_conns": 10,
+    "max_idle_conns": 10,
+    "log": {
+      "log_file": "./local/mysql.log",
+      "max_backups": 2,
+      "rotate_time_hour": 12
+    }
+  },
+  "redis": {
+    "ip": "localhost",
+    "port": 6379,
+    "auth": "test"
+  },
+  "es": {
+    "host": "http://localhost:9200",
+    "username": "root",
+    "pwd": "root"
+  },
+  "tencent_mq_config": {
+    "url": "http://xxxxx:8080",
+    "secret": "xxxxxxx"
+  }
+}

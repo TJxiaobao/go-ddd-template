@@ -1,0 +1,10 @@
+{
+  "app_name": "test",
+  "env": "local",
+  "config_center": {
+    "type": "local",
+    "proto": "json",
+    "address": "testdata/app_config.json",
+    "update_period": "0"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "app": {
+    "name": "demo",
+    "env": "dev",
+    "port": 8080,
+    "debug_port": 18080
+  },
+  "port": 80,
+  "dict": {
+    "abc": "def",
+    "123": "456"
+  }
+}

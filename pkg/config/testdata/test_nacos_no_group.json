@@ -1,0 +1,15 @@
+{
+  "app_name": "test",
+  "env": "dev",
+  "config_center": {
+    "type": "nacos",
+    "proto": "json",
+    "address": "11.111.11.11",
+    "config": {
+      "port": 8848,
+      "data_id": "test",
+      "group": "",
+      "work_path": "/home/admin/log/test/nacos-client"
+    }
+  }
+}
