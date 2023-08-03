@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-type BizError struct {
+type Error struct {
 	code        int
 	message     string
 	args        []interface{}
@@ -16,33 +16,33 @@ type BizError struct {
 	callStack   string
 }
 
-func (e BizError) Code() int {
+func (e Error) Code() int {
 	return e.code
 }
 
-func (e BizError) Message() string {
+func (e Error) Message() string {
 	if len(e.args) == 0 {
 		return e.message
 	}
 	return fmt.Sprintf(e.message, e.args...)
 }
 
-func (e BizError) Error() string {
+func (e Error) Error() string {
 	return fmt.Sprintf("{\"OriginError\": \"%v\", \"Message\": \"%s\", \"Caller\": \"%s\", \"CallStack\": \"%s\"}", e.originError, e.Message(), e.caller, e.callStack)
 }
 
-func (e BizError) IsSuccess() bool {
+func (e Error) IsSuccess() bool {
 	return e.code == OK.Code
 }
 
-func NewBizError(no *Errno, err error, args ...interface{}) error {
-	if e, ok := err.(BizError); ok {
+func NewError(no *Errno, err error, args ...interface{}) error {
+	if e, ok := err.(Error); ok {
 		return e
 	}
-	if e, ok := err.(*BizError); ok {
+	if e, ok := err.(*Error); ok {
 		return *e
 	}
-	return BizError{
+	return Error{
 		code:        no.Code,
 		message:     no.Message,
 		args:        args,
@@ -52,14 +52,14 @@ func NewBizError(no *Errno, err error, args ...interface{}) error {
 	}
 }
 
-func NewSimpleBizError(no *Errno, err error, args ...interface{}) error {
-	if e, ok := err.(BizError); ok {
+func NewSimpleError(no *Errno, err error, args ...interface{}) error {
+	if e, ok := err.(Error); ok {
 		return e
 	}
-	if e, ok := err.(*BizError); ok {
+	if e, ok := err.(*Error); ok {
 		return *e
 	}
-	return BizError{
+	return Error{
 		code:        no.Code,
 		message:     no.Message,
 		args:        args,
@@ -67,20 +67,20 @@ func NewSimpleBizError(no *Errno, err error, args ...interface{}) error {
 	}
 }
 
-func AssertBizError(err error) BizError {
+func AssertError(err error) Error {
 	if err == nil {
-		return BizError{
+		return Error{
 			code:    OK.Code,
 			message: OK.Message,
 		}
 	}
-	if e, ok := err.(BizError); ok {
+	if e, ok := err.(Error); ok {
 		return e
 	}
-	if e, ok := err.(*BizError); ok {
+	if e, ok := err.(*Error); ok {
 		return *e
 	}
-	return BizError{
+	return Error{
 		originError: err,
 		code:        ErrUnknown.Code,
 		message:     ErrUnknown.Message,
@@ -90,7 +90,7 @@ func AssertBizError(err error) BizError {
 func getStack() string {
 	var buf [4096]byte
 	n := runtime.Stack(buf[:], false)
-	splitStr := "BizError"
+	splitStr := "Error"
 	sa := strings.SplitN(string(buf[:n]), splitStr, 2)
 	if len(sa) == 2 {
 		subStr := sa[1]

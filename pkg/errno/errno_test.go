@@ -3,9 +3,9 @@ package errno
 import "testing"
 
 func TestBizError_Error(t *testing.T) {
-	eo := NewSimpleBizError(ErrParameterInvalid, nil, "ins_id")
+	eo := NewSimpleError(ErrParameterInvalid, nil, "id")
 	t.Log(eo.Error())
 
-	eo = NewSimpleBizError(ErrMissingParameter, nil, "corpCode")
+	eo = NewSimpleError(ErrMissingParameter, nil, "Code")
 	t.Log(eo.Error())
 }

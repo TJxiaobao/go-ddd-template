@@ -25,9 +25,6 @@ type (
 
 		// RegisterDebugApi 在给定的 group 下注册相应的 debug api group 及相应的路由处理方法
 		RegisterDebugApi(group *gin.RouterGroup)
-
-		// RegisterOpsApi 在给定的 group 下注册相应的 ops api group 及相应的路由处理方法
-		RegisterOpsApi(group *gin.RouterGroup)
 	}
 )
 
@@ -50,7 +47,7 @@ func RegisterControllerPlugin(p ControllerPlugin) {
 }
 
 // MustInitControllers 初始化已注册的 Controller，包括相关 Controller 的创建及 api group 的注册，如果失败则 panic
-func MustInitControllers(openApiGroup, innerApiGroup, debugApiGroup, opsApiGroup *gin.RouterGroup) {
+func MustInitControllers(openApiGroup, innerApiGroup, debugApiGroup *gin.RouterGroup) {
 	for n, p := range controllerPlugins {
 		controller := p.MustCreateController()
 		if openApiGroup != nil {
@@ -61,9 +58,6 @@ func MustInitControllers(openApiGroup, innerApiGroup, debugApiGroup, opsApiGroup
 		}
 		if debugApiGroup != nil {
 			controller.RegisterDebugApi(debugApiGroup)
-		}
-		if opsApiGroup != nil {
-			controller.RegisterOpsApi(opsApiGroup)
 		}
 		log.Infof("Register controller: plugin=%s, controller=%+v", n, controller)
 	}

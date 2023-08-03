@@ -3,7 +3,6 @@ package errno
 // code=0 请求成功
 // code=4xx 客户端请求错误
 // code=5xx 服务器端错误
-// code=2xxxx 业务处理错误码
 
 type Errno struct {
 	Code    int
@@ -31,33 +30,9 @@ var (
 	ErrUnknown             = &Errno{Code: 510, Message: "Unknown error"}
 )
 
-// 主账号创建相关错误码定义
-// 1101xxx
+// 业务状态码 11xxxx
 var (
-	ErrUsernameExists        = &Errno{Code: 1101001, Message: "Username already exists"}
+	ErrInvalidEmailFormat    = &Errno{Code: 1101001, Message: "Parameter email is invalid"}
 	ErrUsernameEmpty         = &Errno{Code: 1101002, Message: "Parameter username cannot be empty"}
 	ErrInvalidUsernameFormat = &Errno{Code: 1101003, Message: "Parameter username is invalid"}
-	ErrEmailExists           = &Errno{Code: 1101004, Message: "Email already exists"}
-	ErrEmailEmpty            = &Errno{Code: 1101005, Message: "Parameter email cannot be empty"}
-	ErrInvalidEmailFormat    = &Errno{Code: 1101006, Message: "Parameter email is invalid"}
-	ErrPhoneExists           = &Errno{Code: 1101007, Message: "Phone already exists"}
-	ErrPhoneEmpty            = &Errno{Code: 1101008, Message: "Parameter phone cannot be empty"}
-	ErrInvalidPhoneFormat    = &Errno{Code: 1101009, Message: "Parameter phone is invalid"}
-	ErrInvalidBizChannel     = &Errno{Code: 1101010, Message: "Parameter channelId is invalid"}
-	ErrPasswordEmpty         = &Errno{Code: 1101011, Message: "Parameter password cannot be empty"}
-	ErrInvalidPwdFormat      = &Errno{Code: 1101012, Message: "Parameter password is invalid"}
-)
-
-var (
-	ErrUidNotFound            = &Errno{Code: 1201001, Message: "Account not found by uid"}
-	ErrCreateInstanceQuantity = &Errno{Code: 1201003, Message: "Amount of instance cannot be more than 1"}
-	ErrInvalidExpireDate      = &Errno{Code: 1201004, Message: "Parameter expire_date is invalid"}
-)
-
-var (
-	ErrAccountNotFound = &Errno{Code: 1201001, Message: "Account not found"}
-)
-
-var (
-	ErrIssueNotFound = &Errno{Code: 1301001, Message: "Issue not found"}
 )
