@@ -8,10 +8,18 @@ type TestDto struct {
 	TestName    string `json:"test_name"`
 }
 
-func TestToDto(test entity.Test) *TestDto {
+func TestToDto(test *entity.Test) *TestDto {
 	return &TestDto{
 		TestId:      test.ID().GetId(),
 		TestContext: test.Context(),
 		TestName:    test.TestName().GetUsername(),
 	}
+}
+
+func TestToDtos(tests []*entity.Test) []*TestDto {
+	newTests := make([]*TestDto, len(tests))
+	for i := range tests {
+		newTests[i] = TestToDto(tests[i])
+	}
+	return newTests
 }

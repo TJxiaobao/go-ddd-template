@@ -6,7 +6,6 @@ import (
 	"github.com/TJxiaobao/go-ddd-template/app/biz/application/dto"
 	"github.com/TJxiaobao/go-ddd-template/app/biz/domain/repo"
 	"github.com/TJxiaobao/go-ddd-template/app/biz/domain/service"
-	"github.com/TJxiaobao/go-ddd-template/app/biz/domain/vo"
 	"github.com/TJxiaobao/go-ddd-template/app/biz/infrastructure/database/dao"
 	"github.com/TJxiaobao/go-ddd-template/app/biz/infrastructure/database/persistence"
 	"github.com/TJxiaobao/go-ddd-template/app/internal/resource"
@@ -35,7 +34,7 @@ func DefaultTestApp() TestApp {
 		var (
 			db       = resource.DefaultMysqlResource().RwRepo()
 			testDao  = dao.NewTestDao(db)
-			testRepo = persistence.NewTestRepo(issueDao, commentDao, accountDao)
+			testRepo = persistence.NewTestRepo(testDao)
 		)
 		singletonTestApp = &testApp{
 			testRepo: testRepo,
@@ -46,29 +45,25 @@ func DefaultTestApp() TestApp {
 	return singletonTestApp
 }
 
-func (t *testApp) GetIssues(ctx context.Context, query *cqe.GetTestQuery) (*dto.PageResult, error) {
+func (t *testApp) GetList(ctx context.Context, query *cqe.GetTestQuery) (*dto.PageResult, error) {
 	if err := query.Validate(); err != nil {
 		return nil, err
 	}
-	category := vo.MapToCategoryValues(query.Category)
-	issueQuery := repo.IssueQuery{
-		PageNum:      query.PageNum,
-		PageSize:     query.PageSize,
-		Uid:          query.Uid,
-		Title:        query.Title,
-		StartTime:    query.StartTime,
-		EndTime:      query.EndTime,
-		QueryFrom:    query.QueryFrom,
-		Username:     query.UserName,
-		Owner:        query.Owner,
-		FeedbackType: query.FeedbackType,
-		Priority:     query.Priority,
-		StatusValues: query.Status,
-		Category:     category,
-		IssueId:      query.IssueId,
+	testQuery := repo.TestQuery{
+		PageNum:   query.PageNum,
+		PageSize:  query.PageSize,
+		StartTime: query.StartTime,
+		EndTime:   query.EndTime,
+		Username:  query.TestName,
+		TestId:    query.TestId,
 	}
-	issueDTOS := dto.IssuesToDTO(issues, query.QueryFrom)
-	return dto.NewPageResult(issueDTOS, query.PageNum, query.PageSize, count), nil
+	tests, err := t.testRepo.FindByTestQuery(ctx, testQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	testDtos := dto.TestToDtos(tests)
+	return dto.NewPageResult(testDtos, query.PageNum, query.PageSize), nil
 }
 
 func (t *testApp) Create(ctx context.Context, cmd *cqe.CreateTestCmd) error {

@@ -30,7 +30,7 @@ func FailedWithStatus(c *gin.Context, err error, httpStatus int) {
 }
 
 func sendResponse(c *gin.Context, httpStatus int, data interface{}, err error) {
-	bizErr := errno.AssertBizError(err)
+	bizErr := errno.AssertError(err)
 	// 传给其他middleware处理
 	c.Set("x-bizError", bizErr)
 	c.Set("x-httpStatus", httpStatus)
@@ -40,7 +40,7 @@ func sendResponse(c *gin.Context, httpStatus int, data interface{}, err error) {
 	c.JSON(httpStatus, generateResponseDataWithVersion(c, bizErr, data))
 }
 
-func generateResponseDataWithVersion(c *gin.Context, err errno.BizError, data interface{}) *Response {
+func generateResponseDataWithVersion(c *gin.Context, err errno.Error, data interface{}) *Response {
 	resp := &Response{
 		RequestId: GetRequestId(c),
 		Code:      err.Code(),

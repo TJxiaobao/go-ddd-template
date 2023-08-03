@@ -1,6 +1,9 @@
 package entity
 
-import "github.com/TJxiaobao/go-ddd-template/app/biz/domain/vo"
+import (
+	"github.com/TJxiaobao/go-ddd-template/app/biz/domain/vo"
+	"time"
+)
 
 type Test struct {
 	id         vo.ID
@@ -23,4 +26,13 @@ func (t *Test) Context() string {
 
 func (t *Test) TestName() vo.Username {
 	return t.testName
+}
+
+func NewTest(id int64, createTime time.Time, context, testName string) *Test {
+	return &Test{
+		id:         vo.NewID(id),
+		createTime: vo.NewTime(createTime),
+		context:    context,
+		testName:   vo.NewUsername(testName),
+	}
 }

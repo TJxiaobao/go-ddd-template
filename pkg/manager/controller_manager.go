@@ -25,9 +25,6 @@ type (
 
 		// RegisterDebugApi 在给定的 group 下注册相应的 debug api group 及相应的路由处理方法
 		RegisterDebugApi(group *gin.RouterGroup)
-
-		// RegisterOpsApi 在给定的 group 下注册相应的 ops api group 及相应的路由处理方法
-		RegisterOpsApi(group *gin.RouterGroup)
 	}
 )
 

@@ -1,0 +1,1 @@
+time="2023-08-04T01:13:57+08:00" level=info msg="/Users/tiejiaxiaobao/GolandProjects/go-ddd-template/pkg/repository/mysql.go:90\n[error] failed to initialize database, got error dial tcp 127.0.0.1:3306: connect: connection refused"

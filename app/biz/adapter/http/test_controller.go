@@ -41,7 +41,8 @@ func DefaultTestController() TestController {
 
 type TestController interface {
 	manager.Controller
-	Test(c *gin.Context)
+	Create(c *gin.Context)
+	GetList(c *gin.Context)
 }
 
 type testControllerImpl struct {
@@ -71,8 +72,7 @@ func (ctrl *testControllerImpl) GetList(c *gin.Context) {
 		restapi.Failed(c, errno.NewSimpleError(errno.ErrParameterInvalid, err, "query"))
 		return
 	}
-
-	resp, err := ctrl.testApp.GetIssues(context.Background(), &query)
+	resp, err := ctrl.testApp.GetList(context.Background(), &query)
 	if err != nil {
 		restapi.Failed(c, err)
 		return
@@ -81,5 +81,15 @@ func (ctrl *testControllerImpl) GetList(c *gin.Context) {
 }
 
 func (ctrl *testControllerImpl) Create(c *gin.Context) {
-	// todo
+	cmd := cqe.CreateTestCmd{}
+	if err := c.ShouldBindQuery(&cmd); err != nil {
+		restapi.Failed(c, errno.NewSimpleError(errno.ErrParameterInvalid, err, "query"))
+		return
+	}
+	err := ctrl.testApp.Create(context.Background(), &cmd)
+	if err != nil {
+		restapi.Failed(c, err)
+		return
+	}
+	restapi.Success(c, nil)
 }
