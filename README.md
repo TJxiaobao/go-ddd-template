@@ -1,4 +1,4 @@
-# go-ddd-template
+# go-ddd-template | [中文文档](https://github.com/TJxiaobao/go-ddd-template/blob/dev/README_CN.md)
 
 ## 1、Introduction
 
