@@ -3,12 +3,12 @@ package cqe
 import "github.com/TJxiaobao/go-ddd-template/pkg/errno"
 
 type GetTestQuery struct {
-	TestId    string `json:"test_id"`
+	TestId    string `form:"test_id"`
 	PageNum   int    `form:"page_num"`
 	PageSize  int    `form:"page_size"`
 	StartTime int64  `form:"start_time"`
 	EndTime   int64  `form:"end_time"`
-	TestName  string `json:"test_name"`
+	TestName  string `form:"test_name"`
 }
 
 func (q *GetTestQuery) Validate() error {
